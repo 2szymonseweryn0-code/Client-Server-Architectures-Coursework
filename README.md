@@ -1,7 +1,7 @@
 # Client-Server-Architectures-Coursework
 1. JAX-RX Resource class lifecycle and thread safety.
 
-In Jax-rs the lifecycle of a resource class is created for each HTTP request, but this can depend on it' implementation and configuration. In some cases the same example can be used accross multiple requests for efficiency. This matters because if a single instance is shared, then any shared data like static HashMap or ArrayList can be accessed by multiple requests at the same time. This can lead to problems such as race conditions or inconsistent data. For example, two requests coulf try to update the same map at once, causing unexpected behaviour. Because of this, in-memory data structures need to be managed carefully, and thread-safe alternatives or synchronisation may be required.
+In Jax-rs the lifecycle of a resource class is created for each HTTP request, but this can depend on its implementation and configuration. In some cases the same example can be used accross multiple requests for efficiency. This matters because if a single instance is shared, then any shared data like static HashMap or ArrayList can be accessed by multiple requests at the same time. This can lead to problems such as race conditions or inconsistent data. For example, two requests could try to update the same map at once, causing unexpected behaviour. Because of this, in-memory data structures need to be managed carefully, and thread-safe alternatives or synchronisation may be required.
 
 2. Importance of HATEOAS in APIs
 
@@ -9,11 +9,11 @@ HATEOAS means that API responses include links that tell the client what it can 
 
 3. Returning IDs vs Simple Objects
 
-Returning only IDs instead of full objects has both advantages and disadvatages. Using IDs keeps responses small and reduces network usage, which can improve performance. However, the client then has to make extra requests to get full details, which can slow things down. On the other hand, returning full objects makes the client simpler because all the data is available immediately. The downside is that responses become larger and may include unnecessary data. So it’s really a trade off between efficiency and convenience.
+Returning only IDs instead of full objects has both advantages and disadvatages. Using IDs keeps responses small and reduces network usage, which can improve performance. However, the client then has to make extra requests to get full details, which can slow things down. On the other hand, returning full objects makes the client simpler because all the data is available immediately. The downside is that responses become larger and may include unnecessary data. So, it is really a trade off between efficiency and convenience.
 
 4. Idempotency of DELETE
 
-DELETE is considered idempotent because calling it multiple times has the same result. In this system, the first DELETE request removes the room from the data store. If the same request is sent again, the room is already gone, so nothing changes. The server might return a sucess response or a 404, but the final state is still the same. That’s what makes DELETE idempotent. Repeating it doesn’t change the outcome.
+DELETE is considered idempotent because calling it multiple times has the same result. In this system, the first DELETE request removes the room from the data store. If the same request is sent again, the room is already gone, so nothing changes. The server might return a success response or a 404, but the final state is still the same. That’s what makes DELETE idempotent. Repeating it doesn’t change the outcome.
 
 5. @Consumes and wrong data format
 
