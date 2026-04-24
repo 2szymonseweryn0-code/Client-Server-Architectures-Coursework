@@ -1,4 +1,49 @@
 # Client-Server-Architectures-Coursework
+
+System Overview
+
+This project is a RESTful API for a Smart Campus system. It allows management of rooms, sensors, and sensor readings.
+
+The API is built using JAX-RS (Jersey) with an embedded Grizzly server and follows REST principles such as resource-based design, stateless communication and proper use of HTTP methods.
+
+Implemented Features
+
+Room Management
+
+GET /rooms → retrieves all rooms
+POST /rooms → creates a new room
+GET /rooms/{id} → retrieves a specific room
+DELETE /rooms/{id} → deletes a room
+
+A room cannot be deleted if it still has sensors assigned. This prevents invalid data and ensures referential integrity.
+
+Sensor Management
+
+GET /sensors → retrieves all sensors
+GET /sensors?type=X → filters sensors by type
+POST /sensors → creates a new sensor
+
+When creating a sensor, the system validates that the specified room exists. If not, the request is rejected.
+
+Sensor Readings (Nested Resource)
+
+GET /sensors/{id}/readings → retrieves readings
+POST /sensors/{id}/readings → adds a reading
+
+This is implemented using a sub-resource locator pattern.
+
+Each time a reading is added, the sensor’s currentValue is updated to maintain consistency.
+
+Error Handling in This API
+
+The API includes structured error handling:
+
+400 Bad Request → invalid input
+404 Not Found → resource does not exist
+409 Conflict → business rule violation (e.g. deleting a room with sensors)
+
+Errors are returned in JSON format with meaningful messages instead of raw stack traces.
+
 1. JAX-RX Resource class lifecycle and thread safety.
 
 In Jax-rs the lifecycle of a resource class is created for each HTTP request, but this can depend on its implementation and configuration. In some cases the same example can be used accross multiple requests for efficiency. This matters because if a single instance is shared, then any shared data like static HashMap or ArrayList can be accessed by multiple requests at the same time. This can lead to problems such as race conditions or inconsistent data. For example, two requests could try to update the same map at once, causing unexpected behaviour. Because of this, in-memory data structures need to be managed carefully, and thread-safe alternatives or synchronisation may be required.
